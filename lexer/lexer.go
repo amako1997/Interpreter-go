@@ -29,6 +29,15 @@ func (this *Lexer) readChar() {
 	this.readPosition += 1
 
 }
+func (this *Lexer) seeNextChar() byte {
+	if this.readPosition >= len(this.input) {
+
+		return 0
+	} else {
+		ch := this.input[this.readPosition]
+		return ch
+	}
+}
 func (this *Lexer) NextToken() token.Token {
 
 	var tok token.Token
@@ -37,7 +46,14 @@ func (this *Lexer) NextToken() token.Token {
 	switch this.ch {
 
 	case '=':
-		tok = makeToken(token.ASSIGN, this.ch)
+		if this.seeNextChar() == '=' {
+			// save current character
+			ch := this.ch
+			this.readChar()
+			tok = token.Token{Type: token.EQ, Value: string(ch) + string(this.ch)}
+		} else {
+			tok = makeToken(token.ASSIGN, this.ch)
+		}
 	case ';':
 		tok = makeToken(token.SEMICOLON, this.ch)
 	case '(':
@@ -55,7 +71,14 @@ func (this *Lexer) NextToken() token.Token {
 	case '-':
 		tok = makeToken(token.MINUS, this.ch)
 	case '!':
-		tok = makeToken(token.BANG, this.ch)
+		if this.seeNextChar() == '=' {
+			// save current character
+			ch := this.ch
+			this.readChar()
+			tok = token.Token{Type: token.NOT_EQ, Value: string(ch) + string(this.ch)}
+		} else {
+			tok = makeToken(token.BANG, this.ch)
+		}
 	case '/':
 		tok = makeToken(token.SLASH, this.ch)
 	case '*':
