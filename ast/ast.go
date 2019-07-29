@@ -47,3 +47,11 @@ type Identifier struct {
 
 func (i *Identifier) ExpNode()             {}
 func (i *Identifier) TokenLiteral() string { return i.Token.Value }
+
+type ReturnStatement struct {
+	Token       token.Token
+	ReturnValue Expression
+}
+
+func (rs *ReturnStatement) StmNode()             {}
+func (rs *ReturnStatement) TokenLiteral() string { return rs.Token.Value }
