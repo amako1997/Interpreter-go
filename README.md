@@ -1,2 +1,2 @@
-# tinyCompiler
-Tiny compiler is a small compiler written in Golang for study purposes 
+# Interpreter-go
+Interpreter-go is a lightweight interpreter in Golang for study purposes 
